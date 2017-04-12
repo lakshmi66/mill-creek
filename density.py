@@ -46,6 +46,8 @@ def cr_table_1(tree_count_df):
     table_1['tpha_2014'] = table_1['count_2014'] / table_1['plot_size_ha']
     table_1['10_yr_change'] = table_1['tpha_2014'] - table_1['tpha_2004']
 
+    table_1 = table_1.drop(['count_2004', 'count_2008', 'count_2014', 'plot_size_ha'], axis=1)
+
     return table_1
 
 

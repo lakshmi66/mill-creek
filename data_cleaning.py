@@ -27,8 +27,8 @@ def clean_millcreek_data(df):
     df.loc[(df['DBH2014'] == 0) | (df['CC2014'] == 'DEAD'), 'dead'] = '2014'
 
     # Replace 0 diameters with NAs.  0 DBH typically indicates dead trees
-    df.loc[df['DBH2008'] == 0, ['DBH2008']] = np.nan
-    df.loc[df['DBH2014'] == 0, ['DBH2014']] = np.nan
+    df.loc[(df['DBH2008'] == 0) | (df['CC2008'] == 'DEAD'), ['DBH2008']] = np.nan
+    df.loc[(df['DBH2014'] == 0) | (df['CC2014'] == 'DEAD'), ['DBH2014']] = np.nan
 
     # Add firstyear column indicating when the tree was first measured/included in dataset
     # This is hood but effective
