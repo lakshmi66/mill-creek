@@ -35,8 +35,21 @@ table_2.to_csv('table_2.csv', index=False)
 
 df = sz.add_vol(df, 'DBH2014', 'HT2014', 'VOL2014')
 
+table_3 = sz.cr_table_3(df)
+
+table_3.to_csv('table_3.csv')
+
 # Output for size histograms
+
+
 
 # Coefficient of variation plot
 
 # Output for creating coefficient of variation plot
+
+# Modeling effect of treatment on ht and diameter of 1)residual trees  2) largest trees
+
+# Data exploration for modeling:
+
+    # Look into number of trees per plot
+    # Number of large trees per plot?
