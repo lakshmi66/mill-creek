@@ -2,7 +2,7 @@ _author_ = 'Lakshmi'
 
 import numpy as np
 import pandas as pd
-
+import re
 
 def clean_millcreek_data(df):
 
@@ -36,6 +36,9 @@ def clean_millcreek_data(df):
                                   np.where(df['DBH2008'].notnull(), 2008,
                                            np.where(df['DBH2014'].notnull(), 2014, np.nan)))
 
+    # Add 'DBH_damage_2014' column indicating whether the DBH2014 measurement was affected by bear damage
+    df = add_dbh_damage_2014_col(df)
+
     return df
 
 
@@ -44,6 +47,7 @@ def fill_stand_names_from_trt_area(trt_area_name):
     two_letters = [letter for letter in trt_area_name[:2]]
     stand_name = ''.join(two_letters)
     return stand_name
+
 
 def fill_trt(df):
 
@@ -66,4 +70,32 @@ def fill_trt(df):
     # Merge in treatments with tree df
     df = df.merge(trt_df, how='left', on='trt_area')
 
+    return df
+
+
+def return_dbh_bool(dc):
+    """
+    Returns true if the string contains 'DBH' else returns False
+    :param dc: 
+    :return: 
+    """
+    if isinstance(dc, str):
+        if re.match('.*DBH.*', dc):
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
+def add_dbh_damage_2014_col(df):
+    """
+    In the 'DC22014' column of the dataset, there are often multiple damage codes listed in a string.  
+    This function adds a boolean column that is True if 'DC22014' contains 'DBH', indicating the the DBH measurement 
+    has been affected by bear damage.
+    :param df: The dataframe
+    :return: Returns df with 'dbh_damage_2014' bool column
+    """
+
+    df['DBH_damage_2014'] = df['DC22014'].apply(return_dbh_bool)
     return df

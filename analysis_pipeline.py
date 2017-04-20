@@ -39,8 +39,22 @@ table_3 = sz.cr_table_3(df)
 
 table_3.to_csv('table_3.csv')
 
+#create the version of Table 3 excluding trees with bear damage affecting DBH2014 measurements
+
+df_no_dbh_damage = df[df['DBH_damage_2014'] == False]
+
+table_3a = sz.cr_table_3(df_no_dbh_damage)
+
+table_3a.to_csv('table_3a.csv')
+
+#count the number of trees that were excluded per treatment from 3a to 3b
+
+table_3b = sz.count_dbh2014_damage(df)
+table_3b.to_csv('table_3b.csv')
+
 # Output for size histograms
 
+sz.make_stacked_dbh_hist_tables(df)
 
 
 # Coefficient of variation plot
@@ -53,3 +67,5 @@ table_3.to_csv('table_3.csv')
 
     # Look into number of trees per plot
     # Number of large trees per plot?
+
+# Some kind of diversity comparison for different treatments
