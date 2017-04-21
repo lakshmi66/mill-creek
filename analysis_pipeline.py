@@ -56,8 +56,8 @@ table_3b.to_csv('table_3b.csv')
 
 sz.make_stacked_dbh_hist_tables(df)
 
-
 # Coefficient of variation plot
+
 
 # Output for creating coefficient of variation plot
 
