@@ -57,12 +57,13 @@ def count_dbh2014_damage(df):
     return count_df
 
 
-def make_stacked_dbh_hist_tables(df):
+def make_stacked_dbh_hist_tables(df, output_path):
 
     #TODO: Manually check at least one count per table
     dbh_range = range(10, 80, 10)
     two_years = [2004, 2008]
     all_years = [2004, 2008, 2014]
+
     # Low df
     low_df = df[df['trt_clean'] == 'L']
     # Low 2004
@@ -72,25 +73,28 @@ def make_stacked_dbh_hist_tables(df):
     for i, row in l4_counts.iterrows():
         l4_counts.loc[i, '2004_cohort'] = low_df[(low_df['DBH2004'] > (l4_counts.loc[i, 'size_bin_max'] - 10)) &
                                                  (low_df['DBH2004'] <= l4_counts.loc[i, 'size_bin_max'])].shape[0]
-    l4_counts.to_csv('dbh_l4_for_hist.csv', index=False)
+    l4_counts.to_csv(output_path + 'dbh_l4_for_hist.csv', index=False)
+
     # Low 2008
     l8_counts = pd.DataFrame()
     l8_counts['size_bin_max'] = dbh_range
     for year in two_years:
         for i, row in l8_counts.iterrows():
-            l8_counts.loc[i, '_'.join([str(year), 'cohort'])] = low_df[(low_df['first_year'] <= year) &
+            l8_counts.loc[i, '_'.join([str(year), 'cohort'])] = low_df[(low_df['first_year'] == year) &
                                                  (low_df['DBH2008'] > (l8_counts.loc[i, 'size_bin_max'] - 10)) &
                                                  (low_df['DBH2008'] <= l8_counts.loc[i, 'size_bin_max'])].shape[0]
-    l8_counts.to_csv('dbh_l8_for_hist.csv', index=False)
+    l8_counts.to_csv(output_path + 'dbh_l8_for_hist.csv', index=False)
+
     # Low 2014
     l14_counts = pd.DataFrame()
     l14_counts['size_bin_max'] = dbh_range
     for year in all_years:
         for i, row in l14_counts.iterrows():
-            l14_counts.loc[i, '_'.join([str(year), 'cohort'])] = low_df[(low_df['first_year'] <= year) &
+            l14_counts.loc[i, '_'.join([str(year), 'cohort'])] = low_df[(low_df['first_year'] == year) &
                                                  (low_df['DBH2014'] > (l14_counts.loc[i, 'size_bin_max'] - 10)) &
                                                  (low_df['DBH2014'] <= l14_counts.loc[i, 'size_bin_max'])].shape[0]
-    l14_counts.to_csv('dbh_l14_for_hist.csv', index=False)
+    l14_counts.to_csv(output_path + 'dbh_l14_for_hist.csv', index=False)
+
     # Mod df
     mod_df = df[df['trt_clean'] == 'M']
 
@@ -100,29 +104,32 @@ def make_stacked_dbh_hist_tables(df):
     for i, row in m4_counts.iterrows():
         m4_counts.loc[i, '2004_cohort'] = mod_df[(mod_df['DBH2004'] > (m4_counts.loc[i, 'size_bin_max'] - 10)) &
                                                  (mod_df['DBH2004'] <= m4_counts.loc[i, 'size_bin_max'])].shape[0]
-    m4_counts.to_csv('dbh_m4_for_hist.csv', index=False)
+    m4_counts.to_csv(output_path + 'dbh_m4_for_hist.csv', index=False)
+
     # Mod 2008
     m8_counts = pd.DataFrame()
     m8_counts['size_bin_max'] = dbh_range
     for year in two_years:
         for i, row in m8_counts.iterrows():
-            m8_counts.loc[i, '_'.join([str(year), 'cohort'])] = mod_df[(mod_df['first_year'] <= year) &
+            m8_counts.loc[i, '_'.join([str(year), 'cohort'])] = mod_df[(mod_df['first_year'] == year) &
                                                                        (mod_df['DBH2008'] > (
                                                                        m8_counts.loc[i, 'size_bin_max'] - 10)) &
                                                                        (mod_df['DBH2008'] <= m8_counts.loc[
                                                                            i, 'size_bin_max'])].shape[0]
-    m8_counts.to_csv('dbh_m8_for_hist.csv', index=False)
+    m8_counts.to_csv(output_path + 'dbh_m8_for_hist.csv', index=False)
+
     # Mod 2014
     m14_counts = pd.DataFrame()
     m14_counts['size_bin_max'] = dbh_range
     for year in all_years:
         for i, row in m14_counts.iterrows():
-            m14_counts.loc[i, '_'.join([str(year), 'cohort'])] = mod_df[(mod_df['first_year'] <= year) &
+            m14_counts.loc[i, '_'.join([str(year), 'cohort'])] = mod_df[(mod_df['first_year'] == year) &
                                                                         (mod_df['DBH2014'] > (
                                                                         m14_counts.loc[i, 'size_bin_max'] - 10)) &
                                                                         (mod_df['DBH2014'] <= m14_counts.loc[
                                                                             i, 'size_bin_max'])].shape[0]
-    m14_counts.to_csv('dbh_m14_for_hist.csv', index=False)
+    m14_counts.to_csv(output_path + 'dbh_m14_for_hist.csv', index=False)
+
     # Control df
     con_df = df[df['trt_clean'] == 'C']
 
@@ -132,29 +139,31 @@ def make_stacked_dbh_hist_tables(df):
     for i, row in m4_counts.iterrows():
         c4_counts.loc[i, '2004_cohort'] = con_df[(con_df['DBH2004'] > (c4_counts.loc[i, 'size_bin_max'] - 10)) &
                                                  (con_df['DBH2004'] <= c4_counts.loc[i, 'size_bin_max'])].shape[0]
-    c4_counts.to_csv('dbh_c4_for_hist.csv', index=False)
+    c4_counts.to_csv(output_path + 'dbh_c4_for_hist.csv', index=False)
+
     # Con 2008
     c8_counts = pd.DataFrame()
     c8_counts['size_bin_max'] = dbh_range
     for year in two_years:
         for i, row in c8_counts.iterrows():
-            c8_counts.loc[i, '_'.join([str(year), 'cohort'])] = con_df[(con_df['first_year'] <= year) &
+            c8_counts.loc[i, '_'.join([str(year), 'cohort'])] = con_df[(con_df['first_year'] == year) &
                                                                        (con_df['DBH2008'] > (
                                                                            c8_counts.loc[i, 'size_bin_max'] - 10)) &
                                                                        (con_df['DBH2008'] <= c8_counts.loc[
                                                                            i, 'size_bin_max'])].shape[0]
-    c8_counts.to_csv('dbh_c8_for_hist.csv', index=False)
+    c8_counts.to_csv(output_path + 'dbh_c8_for_hist.csv', index=False)
+
     # Con 2014
     c14_counts = pd.DataFrame()
     c14_counts['size_bin_max'] = dbh_range
     for year in all_years:
         for i, row in c14_counts.iterrows():
-            c14_counts.loc[i, '_'.join([str(year), 'cohort'])] = con_df[(con_df['first_year'] <= year) &
+            c14_counts.loc[i, '_'.join([str(year), 'cohort'])] = con_df[(con_df['first_year'] == year) &
                                                                         (con_df['DBH2014'] > (
                                                                             c14_counts.loc[i, 'size_bin_max'] - 10)) &
                                                                         (con_df['DBH2014'] <= c14_counts.loc[
                                                                             i, 'size_bin_max'])].shape[0]
-    c14_counts.to_csv('dbh_c14_for_hist.csv', index=False)
+    c14_counts.to_csv(output_path + 'dbh_c14_for_hist.csv', index=False)
 
 
 def make_stacked_ht_hist_tables(df):

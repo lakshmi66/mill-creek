@@ -39,6 +39,10 @@ def clean_millcreek_data(df):
     # Add 'DBH_damage_2014' column indicating whether the DBH2014 measurement was affected by bear damage
     df = add_dbh_damage_2014_col(df)
 
+    # Add 'plot_full' column with full plot name to df
+
+    df = add_full_plot_name_col(df)
+
     return df
 
 
@@ -96,6 +100,22 @@ def add_dbh_damage_2014_col(df):
     :param df: The dataframe
     :return: Returns df with 'dbh_damage_2014' bool column
     """
-
     df['DBH_damage_2014'] = df['DC22014'].apply(return_dbh_bool)
+    return df
+
+
+def make_plot_full(row):
+    plot_full = '_'.join([row['trt_area'], str(row['Plot'])])
+    return plot_full
+
+
+def add_full_plot_name_col(df):
+    """
+    As the plot column only contains integers 1-3, it is not a uniquer identifier for plots that would allow you to use
+    it for something like cluster robust variances. (i.e. each treatment area has plots with the same name.) This 
+    function glues treatment area name and plot number together as 'plot_full'.
+    :param df: The dataframe
+    :return: The dataframe with 'plot_full' added
+    """
+    df['plot_full'] = df.apply(make_plot_full, axis=1)
     return df
