@@ -2,6 +2,7 @@ _author_ = 'Lakshmi'
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import size as sz
 
 
 def make_ht_dbh_scatterplot(dbh_col, ht_col, figure_title, output_filepath):
@@ -55,15 +56,10 @@ def make_ht_histograms(df, output_filepath):
 
     ht_hist.savefig(output_filepath)
 
-def coeff_var(array):
-    stdev = array.std()
-    mean = array.mean()
-    cv = stdev / float(mean)
-    return cv
 
 def make_cv_barplot(df, output_filepath):
     # Make the dataframe
-    cv_table = df.groupby('trt_clean').agg({'DBH2014': coeff_var, 'HT2014': coeff_var, 'VOL2014': coeff_var}).reset_index()
+    cv_table = df.groupby('trt_clean').agg({'DBH2014': sz.coeff_var, 'HT2014': sz.coeff_var, 'VOL2014': sz.coeff_var}).reset_index()
     cv_table = cv_table.set_index('trt_clean')
     cv_table = cv_table.transpose()
     cv_table.columns = pd.Index(['C', 'L', 'M'], name='Treatment')
@@ -72,4 +68,4 @@ def make_cv_barplot(df, output_filepath):
     cv_bar, ax1 = plt.subplots()
     cv_table.plot(kind='bar', ax=ax1)
     cv_bar.tight_layout()
-    cv_bar.savefig('/Users/Lakshmi/Google Drive/MillCreek/cv_barplot.png')
+    cv_bar.savefig(output_filepath + 'cv_barplot.png')

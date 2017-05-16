@@ -22,9 +22,11 @@ def clean_millcreek_data(df):
 
     df['dead'] = np.nan
 
+    ##TODO: Add line to un-dead trees that are reported dead in 2008 but have diameters measured in 2014
     df.loc[(df['DBH2008'] == 0) | (df['CC2008'] == 'DEAD'), 'dead'] = '2008'
     df.loc[(df['DC2008'] == 99) & (df['DC12014'] == 99), 'dead'] = '2008'
     df.loc[(df['DBH2014'] == 0) | (df['CC2014'] == 'DEAD'), 'dead'] = '2014'
+
 
     # Replace 0 diameters with NAs.  0 DBH typically indicates dead trees
     df.loc[(df['DBH2008'] == 0) | (df['CC2008'] == 'DEAD'), ['DBH2008']] = np.nan

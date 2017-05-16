@@ -56,20 +56,23 @@ table_3a.to_csv(output_path + 'table_3a.csv')
 table_3b = sz.count_dbh2014_damage(df)
 table_3b.to_csv(output_path + 'table_3b.csv')
 
-# Output for size histograms
+# Tables for size histograms
 
-sz.make_stacked_dbh_hist_tables(df, output_path)
+sz.cr_stacked_dbh_hist_tables(df, output_path)
 
-# Coefficient of variation plot
+sz.cr_stacked_ht_hist_tables(df, output_path)
 
+# Tables for coefficient of variation plot
 
-# Output for creating coefficient of variation plot
+cv_table = sz.cr_cv_table(df)
+
+cv_table.to_csv(output_path + 'cv_table.csv')
 
 # Modeling effect of treatment on ht and diameter of 1)residual trees  2) largest trees
 
 # Data exploration for modeling:
 
-    # Look into number of trees per plot
+    # Look into number of trees per plot, per treatment area
     # Number of large trees per plot?
 
 # Some kind of diversity comparison for different treatments
